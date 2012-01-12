@@ -1,7 +1,82 @@
 var util = require('util');
+var fs   = require('fs');
 
+
+var file = '/tmp/node/test'
+var s1 = fs.createWriteStream( file );
+
+s1.on( 'error', function(e) { util.log( e ) } );
+s1.on( 'open', function () {
+
+    util.log( file );
+    fs.watch( file, function( event ) {
+        util.log( event );
+        var s2 = fs.createWriteStream( '/tmp/node/test' );
+        s2.on( 'error', function(e) { util.log( e ) } );
+        s2.on( 'open', function() {
+            s1.end();
+            util.log( "s2 " + util.inspect( s2 ) ) } );
+            fs.watch( file, function( event ) {
+                util.log( 's2' );
+            });
+        util.log( "s1 " + util.inspect( s1 ) );
+    });
+    util.log( "s1 " + util.inspect( s1 ) );
+
+    //fs.renameSync( '/tmp/node/test', '/tmp/node/test.off' );
+});
+
+
+
+
+
+
+
+
+/*
 var str = "udp://0.0.0.0:3000";
 
+var fail = 0;
+
+if( !fail++ ) { util.log( 1 ) }
+if( !fail++ ) { util.log( 2 ) }
+
+/*
+fs.watch( '/tmp/node/test', function( event ) {
+    util.log( util.inspect( event ) );
+});
+
+/*
+function O (a) {
+    this.foo = a;
+}
+O.prototype = new _X( true );
+O.prototype.constructor = O;
+
+function P (a) {
+    this.foo = a;
+}
+P.prototype = new _X( false );
+P.prototype.constructor = P;
+
+
+
+function _X ( available ) {
+    this.available = available;
+}
+
+
+var o = new O(42);
+var p = new P(42);
+
+util.log( o.foo )
+util.log( o.available )
+
+util.log( p.foo )
+util.log( p.available )
+
+
+/*
 var x = str.match(/^(\w+):\/\/(.+?):(\d+)$/);
 if( x ) {
     util.log( x[1,2,3] );
