@@ -1,0 +1,18 @@
+{
+  "name": "argparser"
+, "version": "${version}"
+, "description": "object to parse commandline-args and options."
+, "tags": ["getopt", "arguments", "option", "getopts", "command"]
+, "author": "SHIN Suzuki <shinout310@gmail.com>"
+, "repository": 
+  { "type": "git"
+  ,  "url": "https://github.com/shinout/argparser.git"
+  }
+, "bugs": {"web": "https://github.com/shinout/argparser/issues" }
+, "licences": 
+  [ { "type": "MIT"
+    , "url": "https://github.com/shinout/argparser/raw/master/LICENCE"
+    }
+  ]
+, "main": "./ArgParser.js"
+}
