@@ -6,6 +6,7 @@ var RS              = require('../lib/remote_send');
 var Configurator    = require('../lib/configurator');
 var Base            = require('../lib//base');
 var C               = require('../lib/common');
+var Test            = require('./lib/test');
 
 var Dgram           = require("dgram");
 var U               = require('util');
@@ -13,6 +14,7 @@ var Net             = require('net');
 
 var OK          = 0;
 var FAIL        = 0;
+var BO          = new Base.BaseObject();
 
 // **************************
 // Individual test functions
@@ -90,16 +92,12 @@ var TESTS       = {
 };
 
 var TestCount   = 3;    // XXX count the keys of TESTS
-var BO          = new Base.BaseObject();
 
 // **************************
 // Main loop
 // **************************
 
-Configurator.config( null, ["--debug", "--trace"], function( config_object ) {
-    BO._set_config_object( config_object );
-
-    U.log( U.inspect( config_object ) );
+Test.Test( 1, function( test, config ) {
 
     // XXX jslint says: The body of a for in should be wrapped in an if statement to filter unwanted properties from the prototype. -- look this one up & fix it.
     var type;
