@@ -1,3 +1,6 @@
+"use strict";
+
+
 var LL              = require('../lib/local_listen');
 var RS              = require('../lib/remote_send');
 var Configurator    = require('../lib/configurator');
@@ -7,6 +10,9 @@ var C               = require('../lib/common');
 var Dgram           = require("dgram");
 var U               = require('util');
 var Net             = require('net');
+
+var OK          = 0;
+var FAIL        = 0;
 
 // **************************
 // Individual test functions
@@ -81,11 +87,9 @@ var TESTS       = {
     'unix': [ _stream_test, '/tmp/socket.piped' ],  // XXX relative to this file?
     'tcp':  [ _stream_test, 10001, 'localhost' ],
     'udp':  [ _udp_test,    10011, 'localhost' ],
-}
+};
 
 var TestCount   = 3;    // XXX count the keys of TESTS
-var OK          = 0;
-var FAIL        = 0;
 var BO          = new Base.BaseObject();
 
 // **************************
@@ -97,7 +101,9 @@ Configurator.config( null, ["--debug", "--trace"], function( config_object ) {
 
     U.log( U.inspect( config_object ) );
 
-    for( var type in TESTS ) {
+    // XXX jslint says: The body of a for in should be wrapped in an if statement to filter unwanted properties from the prototype. -- look this one up & fix it.
+    var type;
+    for( type in TESTS ) {
         C._trace( [ type, TESTS[type] ] );
 
         // Run the individual test
