@@ -8,8 +8,9 @@ var Dgram           = require("dgram");
 var U               = require('util');
 var Net             = require('net');
 
-
-var BO = new Base.BaseObject();
+// **************************
+// Individual test functions
+// **************************
 
 var _stream_test = function( type, port, host ) {
 
@@ -59,8 +60,12 @@ var _udp_test = function( type, port, host ) {
     );
 };
 
+// **************************
+// Test configuration
+// **************************
+
 var TESTS       = {
-    'unix': [ _stream_test, '/tmp/socket.piped' ],
+    'unix': [ _stream_test, '/tmp/socket.piped' ],  // XXX relative to this file?
     'tcp':  [ _stream_test, 10001, 'localhost' ],
     'udp':  [ _udp_test,    10011, 'localhost' ],
 }
@@ -68,7 +73,11 @@ var TESTS       = {
 var TestCount   = 3;    // XXX count the keys of TESTS
 var OK          = 0;
 var FAIL        = 0;
+var BO          = new Base.BaseObject();
 
+// **************************
+// Main loop
+// **************************
 
 Configurator.config( null, ["--debug", "--trace"], function( config_object ) {
     BO._set_config_object( config_object );
@@ -82,6 +91,10 @@ Configurator.config( null, ["--debug", "--trace"], function( config_object ) {
         TESTS[type][0]( type, TESTS[type][1], TESTS[type][2] );
     }
 });
+
+// **************************
+// Check if tests succeeded
+// **************************
 
 // Check if we're done, once a second.
 var Checks = 0;
