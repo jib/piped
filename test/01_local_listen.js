@@ -27,12 +27,18 @@ var _stream_test = function( type, port, host ) {
         },
         // on listen
         function( ll ) {
+
+            /* This is the manual way of connecting, but prefer to use
+               our own code for it, so both ends get testsed
             var sock = Net.createConnection( port, host );
-
             C._trace( [ "socket: ", sock  ]);
-
             sock.on( 'error', function(e) { C._trace( [ type, e ] ); FAIL++ } );
             sock.write( type );
+            */
+
+            // Connect using our remote code
+            var rs  = new RS.RemoteStreamSend( type, port, host );
+            rs.send( type );
         }
     );
 };
@@ -49,13 +55,20 @@ var _udp_test = function( type, port, host ) {
         },
         // on listen
         function( ll ) {
-            var sock = Dgram.createSocket("udp4");
 
+            /* This is the manual way of connecting, but prefer to use
+               our own code for it, so both ends get testsed
             C._trace( [ "udp: ", sock  ]);
+
+            var sock = Dgram.createSocket("udp4");
             sock.on( 'error', function(e) { C._trace( [ type, e ] ); FAIL++ } );
 
             var buf  = new Buffer( type );
             sock.send( buf, 0, buf.length, port, host );
+            */
+
+            var rs = RS.RemoteUDPSend( type, port, host );
+            rs.send( type );
         }
     );
 };
