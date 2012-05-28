@@ -16,6 +16,13 @@ Configurator.config( null, ["--debug", "--trace"], function( config_object ) {
             C._trace( [ "tcp:10001", data ] );
         });
     });
+
+    var unix = new LL.LocalStreamListen( 'socket', '/tmp/piped.socket', undefined, function (ll,conn) {
+        conn.on( 'data', function (data) {
+            C._trace( [ "socket://tmp/piped.socket", data ] );
+        });
+    });
+
 });
 
 
