@@ -3,7 +3,7 @@
 var LL              = require('../lib/local_listen');
 var Configurator    = require('../lib/configurator');
 var Base            = require('../lib//base');
-var C               = require('../lib/common');
+var C               = require('../lib/common').common();
 var RP              = require('../lib/remote_pool');
 var Test            = require('./lib/test');
 

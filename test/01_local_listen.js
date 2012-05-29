@@ -5,7 +5,7 @@ var LL              = require('../lib/local_listen');
 var RS              = require('../lib/remote_send');
 var Configurator    = require('../lib/configurator');
 var Base            = require('../lib//base');
-var C               = require('../lib/common');
+var C               = require('../lib/common').common();
 var Test            = require('./lib/test');
 
 var Dgram           = require("dgram");
