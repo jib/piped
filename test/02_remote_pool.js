@@ -10,24 +10,37 @@ var Test            = require('./lib/test');
 var U               = require('util');
 var Net             = require('net');
 
-Test.Test( 1, function( test, config ) {
+var TestCount       = 4         // Amount of nodes being connected
+                      +5;
+
+
+Test.Test( TestCount, function( test, config ) {
 
     // We're setting up some 'remotes' inside the test case for the RemotePool
     // to connect to.
-    var tcp1 = new LL.Stream( 'tcp', 10001, undefined, function(){} );
-    var tcp2 = new LL.Stream( 'tcp', 10002, undefined, function(){} );
-    var tcp3 = new LL.Stream( 'tcp', 10003, undefined, function(){} );
-    var tcp4 = new LL.Stream( 'tcp', 10004, undefined, function(){} );
+    var listeners   = [];
+    var remotes     = [ [], [] ];
+    var node_count  = 4;
+    var i           = 0;
+    var base_port   = 10001;
 
-    // These are the connection strings matching the 'remotes' above.
-    var servers = [ [ "tcp://localhost:10001", "tcp://localhost:10002" ],
-                    [ "tcp://localhost:10003", "tcp://localhost:10004" ],
-                  ];
+    for( i = 0; i < node_count; i++ ) {
+        var my_port = base_port + i;
 
-    new RP.RemotePool( servers ).connect_to_servers( function(rp) {
+        // start a listener
+        listeners.push( new LL.Stream( 'tcp', my_port, undefined, function(){} ) );
+
+        // alternatingly put them in remotes[0] or remotes[1]
+        remotes[ i % 2].push( U.format( "tcp://localhost:%s", my_port ) );
+    }
+
+    //C._trace( remotes );
+
+    new RP.RemotePool( remotes ).connect_to_servers( function(rp) {
         C._trace( test.state_object() );
 
-        // XXX look up how to 'sleep' so we can do the following tests:
+
+
         // 1: Make sure all above hosts are connected
         // 2: Make sure that if tcp1 goes away, it's flagged and tcp2 takes over
         // 3: If tcp2 goes away, we fail over to overflow/flag it
