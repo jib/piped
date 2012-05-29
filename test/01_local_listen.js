@@ -23,7 +23,7 @@ var BO          = new Base.BaseObject();
 var _stream_test = function( test, type, port, host ) {
 
     // The listener
-    var ll = new LL.LocalStreamListen( type, port, host,
+    var ll = new LL.Stream( type, port, host,
         // on connect
         function( ll, conn ) {
             C._trace( ll );
@@ -45,7 +45,7 @@ var _stream_test = function( test, type, port, host ) {
             */
 
             // Connect using our remote code
-            var rs  = new RS.RemoteStreamSend( type, port, host );
+            var rs  = new RS.Stream( type, port, host );
             rs.send( type );
         }
     );
@@ -54,7 +54,7 @@ var _stream_test = function( test, type, port, host ) {
 var _udp_test = function( test, type, port, host ) {
 
     // The listener
-    var ll = new LL.LocalUDPListen( type, port, host,
+    var ll = new LL.UDP( type, port, host,
         // on data
         function( ll, data ) {
             C._trace( ll );
@@ -75,7 +75,7 @@ var _udp_test = function( test, type, port, host ) {
             sock.send( buf, 0, buf.length, port, host );
             */
 
-            var rs = RS.RemoteUDPSend( type, port, host );
+            var rs = RS.UDP( type, port, host );
             rs.send( type );
         }
     );

@@ -14,10 +14,10 @@ Test.Test( 1, function( test, config ) {
 
     // We're setting up some 'remotes' inside the test case for the RemotePool
     // to connect to.
-    var tcp1 = new LL.LocalStreamListen( 'tcp', 10001, undefined, function(){} );
-    var tcp2 = new LL.LocalStreamListen( 'tcp', 10002, undefined, function(){} );
-    var tcp3 = new LL.LocalStreamListen( 'tcp', 10003, undefined, function(){} );
-    var tcp4 = new LL.LocalStreamListen( 'tcp', 10004, undefined, function(){} );
+    var tcp1 = new LL.Stream( 'tcp', 10001, undefined, function(){} );
+    var tcp2 = new LL.Stream( 'tcp', 10002, undefined, function(){} );
+    var tcp3 = new LL.Stream( 'tcp', 10003, undefined, function(){} );
+    var tcp4 = new LL.Stream( 'tcp', 10004, undefined, function(){} );
 
     // These are the connection strings matching the 'remotes' above.
     var servers = [ [ "tcp://localhost:10001", "tcp://localhost:10002" ],
