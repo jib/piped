@@ -20,7 +20,7 @@ var BO          = new Base.BaseObject();
 // Individual test functions
 // **************************
 
-var _stream_test = function( type, port, host ) {
+var _stream_test = function( test, type, port, host ) {
 
     // The listener
     var ll = new LL.LocalStreamListen( type, port, host,
@@ -30,7 +30,7 @@ var _stream_test = function( type, port, host ) {
 
             conn.on( 'data', function (data) {
                 C._trace( [ U.format( "OK: %s:%s", type, port), data ] );
-                OK++;
+                test.ok++;
             });
         },
         // on listen
@@ -51,7 +51,7 @@ var _stream_test = function( type, port, host ) {
     );
 };
 
-var _udp_test = function( type, port, host ) {
+var _udp_test = function( test, type, port, host ) {
 
     // The listener
     var ll = new LL.LocalUDPListen( type, port, host,
@@ -59,7 +59,7 @@ var _udp_test = function( type, port, host ) {
         function( ll, data ) {
             C._trace( ll );
             C._trace( [ U.format( "OK: %s:%s", type, port), data ] );
-            OK++;
+            test.ok++;
         },
         // on listen
         function( ll ) {
@@ -91,13 +91,13 @@ var TESTS       = {
     'udp':  [ _udp_test,    10011, 'localhost' ],
 };
 
-var TestCount   = 3;    // XXX count the keys of TESTS
+var TestCount   = Object.keys(TESTS).length;    // XXX count the keys of TESTS
 
 // **************************
 // Main loop
 // **************************
 
-Test.Test( 1, function( test, config ) {
+Test.Test( TestCount, function( test, config ) {
 
     // XXX jslint says: The body of a for in should be wrapped in an if statement to filter unwanted properties from the prototype. -- look this one up & fix it.
     var type;
@@ -105,27 +105,10 @@ Test.Test( 1, function( test, config ) {
         C._trace( [ type, TESTS[type] ] );
 
         // Run the individual test
-        TESTS[type][0]( type, TESTS[type][1], TESTS[type][2] );
+        TESTS[type][0]( test, type, TESTS[type][1], TESTS[type][2] );
     }
 });
 
-// **************************
-// Check if tests succeeded
-// **************************
-
-// Check if we're done, once a second.
-var Checks = 0;
-setInterval( function () {
-    Checks++;
-    if( OK + FAIL >= TestCount ) {
-        U.log( U.format( "Test result\nOK: %s\nFAIL: %s\nTotal: %s\n",
-                            OK, FAIL, OK + FAIL ) );
-        // XXX exit here
-    } else if ( Checks >= 5 ) {
-        U.log( U.format( "Execution time expired" ) );
-        // XXX exit here with error code
-    }
-}, 1000 );
 
 
 
