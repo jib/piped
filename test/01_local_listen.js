@@ -3,110 +3,91 @@
 
 var LL              = require('../lib/local_listen');
 var RS              = require('../lib/remote_send');
-var Configurator    = require('../lib/configurator');
 var Base            = require('../lib//base');
 var C               = require('../lib/common').common();
-var Test            = require('./lib/test');
+var TestLib         = require('./lib/test');
 
 var Dgram           = require("dgram");
 var U               = require('util');
 var Net             = require('net');
 
-var OK          = 0;
-var FAIL        = 0;
-var BO          = new Base.BaseObject();
 
-// **************************
-// Individual test functions
-// **************************
 
-var _stream_test = function( test, type, port, host ) {
+TestLib.Test( function( test, testlib, config ) {
 
-    // The listener
-    var ll = new LL.Stream( type, port, host,
-        // on connect
-        function( ll, conn ) {
-            C._trace( ll );
+    var _stream_test = function( t, type, port, host ) {
+        // The listener
+        var ll = new LL.Stream( type, port, host,
+            // on connect
+            function( ll, conn ) {
+                conn.on( 'data', function (data) {
 
-            conn.on( 'data', function (data) {
-                C._trace( [ U.format( "OK: %s:%s", type, port), data ] );
-                test.ok++;
-            });
-        },
-        // on listen
-        function( ll ) {
+                    t.ok( true, U.format( "Received data on %s:%s - %s",
+                            type, port, data ) );
+                    t.done();
+                });
+            },
+            // on listen
+            function( ll ) {
 
-            /* This is the manual way of connecting, but prefer to use
-               our own code for it, so both ends get testsed
-            var sock = Net.createConnection( port, host );
-            C._trace( [ "socket: ", sock  ]);
-            sock.on( 'error', function(e) { C._trace( [ type, e ] ); FAIL++ } );
-            sock.write( type );
-            */
+                /* This is the manual way of connecting, but prefer to use
+                   our own code for it, so both ends get testsed
+                var sock = Net.createConnection( port, host );
+                C._trace( [ "socket: ", sock  ]);
+                sock.on( 'error', function(e) { C._trace( [ type, e ] ); FAIL++ } );
+                sock.write( type );
+                */
 
-            // Connect using our remote code
-            var rs  = new RS.Stream( type, port, host );
-            rs.send( type );
-        }
-    );
-};
+                // Connect using our remote code
+                var rs  = new RS.Stream( type, port, host );
+                rs.send( type );
+            }
+        );
+    };
 
-var _udp_test = function( test, type, port, host ) {
+    test.testSocket = function( t ) {
+        // XXX relative to this file?
+        _stream_test( t, 'unix', '/tmp/socket.piped' );
+    };
 
-    // The listener
-    var ll = new LL.UDP( type, port, host,
-        // on data
-        function( ll, data ) {
-            C._trace( ll );
-            C._trace( [ U.format( "OK: %s:%s", type, port), data ] );
-            test.ok++;
-        },
-        // on listen
-        function( ll ) {
+    test.testTCP = function( t ) {
+        _stream_test( t, 'tpc', 10001, 'localhost' );
+    };
 
-            /* This is the manual way of connecting, but prefer to use
-               our own code for it, so both ends get testsed
-            C._trace( [ "udp: ", sock  ]);
+    test.testUDP = function ( t ) {
+        var type = 'udp';
+        var port = 10001;
+        var host = 'localhost';
 
-            var sock = Dgram.createSocket("udp4");
-            sock.on( 'error', function(e) { C._trace( [ type, e ] ); FAIL++ } );
+        // The listener
+        var ll = new LL.UDP( type, port, host,
+            // on data
+            function( ll, data ) {
+                t.ok( true, U.format( "Received data on %s:%s - %s", type, port, data ) );
+                t.done();
+            },
+            // on listen
+            function( ll ) {
 
-            var buf  = new Buffer( type );
-            sock.send( buf, 0, buf.length, port, host );
-            */
+                /* This is the manual way of connecting, but prefer to use
+                   our own code for it, so both ends get testsed
+                C._trace( [ "udp: ", sock  ]);
 
-            var rs = RS.UDP( type, port, host );
-            rs.send( type );
-        }
-    );
-};
+                var sock = Dgram.createSocket("udp4");
+                sock.on( 'error', function(e) { C._trace( [ type, e ] ); FAIL++ } );
 
-// **************************
-// Test configuration
-// **************************
+                var buf  = new Buffer( type );
+                sock.send( buf, 0, buf.length, port, host );
+                */
 
-var TESTS       = {
-    'unix': [ _stream_test, '/tmp/socket.piped' ],  // XXX relative to this file?
-    'tcp':  [ _stream_test, 10001, 'localhost' ],
-    'udp':  [ _udp_test,    10011, 'localhost' ],
-};
+                var rs = RS.UDP( type, port, host );
+                rs.send( type );
+            }
+        );
+    };
 
-var TestCount   = Object.keys(TESTS).length;    // XXX count the keys of TESTS
-
-// **************************
-// Main loop
-// **************************
-
-Test.Test( TestCount, function( test, config ) {
-
-    // XXX jslint says: The body of a for in should be wrapped in an if statement to filter unwanted properties from the prototype. -- look this one up & fix it.
-    var type;
-    for( type in TESTS ) {
-        C._trace( [ type, TESTS[type] ] );
-
-        // Run the individual test
-        TESTS[type][0]( test, type, TESTS[type][1], TESTS[type][2] );
-    }
+    // run the tests
+    testlib.run();
 });
 
 
