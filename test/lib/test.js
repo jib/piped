@@ -24,19 +24,53 @@ exports.Test = function( callback ) {
 
         obj._set_config_object( cfg );
 
-        // We don't use the module runner anymore, so opts are no longer
-        // necessary. we hook directly into nodeutil's individusal testrun
-        // obj.opts = {
-        //     done: function (assertions) {
-        //         C._trace( ["done", assertions] );
-        //     },
-        //     moduleDone: function (name, assertions) {
-        //         C._trace( ["moduleDone", name, assertions ] );
-        //     },
-        //     testDone: function (name, assertions) {
-        //         C._trace( ["testDone", name, assertions] );
-        //     },
-        // };
+        obj.opts = {
+            testDone: function (name, assertions) {
+                //C._trace( ["Ran test:", assertions ] );
+
+                // Bookkeeping.
+                obj._done++;
+                obj._fail   += assertions.failures();
+                obj._ok     += assertions.passes();
+
+                //obj._tests  += assertions.passes() + assertions.failures();
+
+                // Test header
+                obj.diag( U.format(
+                    "Test: %s - OK: %s - Fail: %s",
+                    name, assertions.passes(), assertions.failures()
+                ));
+
+                // Print out the "OK" or "NOT OK" lines.
+                var j;
+                for( j = 0; j < assertions.length; j++ ) {
+                    obj._tests++;
+
+                    var a = assertions[j];
+
+                    //C._trace( a );
+                    if( a.error ) {
+                        process.stdout.write( U.format(
+                            "NOT OK %s: %s (%s)\n",
+                            obj._tests, a.message, a.error.name
+                        ));
+
+                        // Extended diagnostics
+                        if( a.error.actual ) {
+                            obj.diag( U.format(
+                                "Got: '%s'\n# Expected: '%s'",
+                                a.error.actual, a.error.expected
+                            ));
+                        }
+
+                    } else {
+                        process.stdout.write( U.format( "OK %s: %s\n",
+                            obj._tests, a.message
+                        ));
+                    }
+                }
+            },
+        };
 
         obj.diag = function( str ) {
             process.stdout.write( "# " + str + "\n" );
@@ -68,51 +102,12 @@ exports.Test = function( callback ) {
                     // Use nodeunit to actually run the test. It gives us access
                     // to all the .ok() .isEqual() etc stuff, and calls us back
                     // with a list of assertions and we can inspect those.
-                    nodeunit.runTest( name, func, {}, function(empty,assertions){
-                        //C._trace( ["Ran test:", assertions ] );
-
-                        // Bookkeeping.
-                        obj._done++;
-                        obj._fail   += assertions.failures();
-                        obj._ok     += assertions.passes();
-
-                        //obj._tests  += assertions.passes() + assertions.failures();
-
-                        // Test header
-                        obj.diag( U.format(
-                            "Test: %s - OK: %s - Fail: %s",
-                            name, assertions.passes(), assertions.failures()
-                        ));
-
-                        // Print out the "OK" or "NOT OK" lines.
-                        var j;
-                        for( j = 0; j < assertions.length; j++ ) {
-                            obj._tests++;
-
-                            var a = assertions[j];
-
-                            //C._trace( a );
-                            if( a.error ) {
-                                process.stdout.write( U.format(
-                                    "NOT OK %s: %s (%s)\n",
-                                    obj._tests, a.message, a.error.name
-                                ));
-
-                                // Extended diagnostics
-                                if( a.error.actual ) {
-                                    obj.diag( U.format(
-                                        "Got: '%s'\n# Expected: '%s'",
-                                        a.error.actual, a.error.expected
-                                    ));
-                                }
-
-                            } else {
-                                process.stdout.write( U.format( "OK %s: %s\n",
-                                    obj._tests, a.message
-                                ));
-                            }
-                        }
-                    });
+                    // We use obj.opts, rather than a callback directly for
+                    // the 'testDone' feature, because the former gets the
+                    // name passed as well, where as the latter does not,
+                    // and 'name' will be set to the LAST item in the funcs
+                    // listen (async run, i presume)
+                    nodeunit.runTest( name, func, obj.opts, function(){} )
                 }
             }
 
