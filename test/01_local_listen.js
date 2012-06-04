@@ -51,7 +51,7 @@ TestLib.Test( function( test, testlib, config ) {
     };
 
     test.testTCP = function( t ) {
-        _stream_test( t, 'tpc', 10001, 'localhost' );
+        _stream_test( t, 'tcp', 10001, 'localhost' );
     };
 
     test.testUDP = function ( t ) {
@@ -85,6 +85,18 @@ TestLib.Test( function( test, testlib, config ) {
             }
         );
     };
+
+//     test.testFile = function( t ) {
+//         var type = 'file';
+//         // XXX relative to this file?
+//         var file = '/tmp/x';
+//
+//         var ll = new LL.File( type, file );
+//
+//
+//         t.ok( true, ll );
+//         //t.done();
+//     };
 
     // run the tests
     testlib.run();
