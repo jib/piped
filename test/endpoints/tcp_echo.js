@@ -8,8 +8,7 @@ util.log( port );
 var server = net.createServer(function (stream) {
     stream.setEncoding('ascii');
     stream.on( 'data', function( data ) {
-        s = data.trim();
-        util.log( s );
+        process.stdout.write( s );
         stream.write( util.format( "Echo server %s\r\n", port ) );
         stream.write( s );
     });
