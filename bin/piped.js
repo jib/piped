@@ -102,6 +102,16 @@ Usage: node bin/piped.js /path/to/configfile [--option=value, ...]\n\
             }
 
             // *********************************
+            // Unix socket
+            // *********************************
+
+            if( config.unix_socket ) {
+                new LocalListen.Stream(
+                    'socket', config.unix_socket, false, dispatcher.dispatch
+                );
+            }
+
+            // *********************************
             // UDP server
             // *********************************
 
