@@ -16,14 +16,14 @@ Also see:
 // *********************************
 
 var U               = require('util');
-var Base            = require('./base');
-var C               = require('./common').common();
-var Configurator    = require('./configurator');
-var LocalListen     = require('./local_listen');
-var RemoteSend      = require('./remote_send');
-var RemotePool      = require('./remote_pool');
-var AdminServer     = require('./admin_server');
-var Dispatcher      = require('./dispatcher');
+var Base            = require('../lib/base');
+var C               = require('../lib/common').common();
+var Configurator    = require('../lib/configurator');
+var LocalListen     = require('../lib/local_listen');
+var RemoteSend      = require('../lib/remote_send');
+var RemotePool      = require('../lib/remote_pool');
+var AdminServer     = require('../lib/admin_server');
+var Dispatcher      = require('../lib/dispatcher');
 
 // *********************************
 // Utility functions
@@ -31,7 +31,7 @@ var Dispatcher      = require('./dispatcher');
 
 function _usage( msg ) {
     var usage = "\n\
-Usage: node lib/piped.js /path/to/config file [--option=value, ...]\n\
+Usage: node bin/piped.js /path/to/configfile [--option=value, ...]\n\
     ";
 
     return "ERROR: " + msg + usage;
