@@ -1,3 +1,5 @@
+// or run: nc -U -kl 10001
+
 var dgram   = require('dgram');
 var util    = require('util');
 

@@ -1,3 +1,5 @@
+// or run: nc -kl 10001
+
 var net  = require('net');
 var util = require('util');
 
