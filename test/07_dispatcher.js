@@ -1,7 +1,4 @@
-// XXX can't get this to work cleanly - not with stubbing, (can't get
-// 'on data' to work and not with a remote -> local -> remote pipeline
-// (conn.send doesn't work)
-
+"use strict";
 
 var LocalListen     = require('../lib/local_listen');
 var Base            = require('../lib/base');
