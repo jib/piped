@@ -19,7 +19,11 @@ var U               = require('util');
 // https://github.com/caolan/nodeunit/blob/master/lib/reporters/minimal.js
 
 exports.Test = function( callback ) {
-    new Configurator.Configurator( null, ["--debug", "--trace"],  function( cfg ) {
+
+    // Enable verbose testing? set the env var to 1
+    var opts = parseInt(process.env['TEST_VERBOSE']) ? ["--debug", "--trace"] : [];
+
+    new Configurator.Configurator( null, opts, function( cfg ) {
         var obj     = Base.BaseObject();
 
         obj._set_config_object( cfg );
