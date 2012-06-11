@@ -10,9 +10,9 @@ util.log( port );
 var server = net.createServer(function (stream) {
     stream.setEncoding('ascii');
     stream.on( 'data', function( data ) {
-        process.stdout.write( s );
+        process.stdout.write( data );
         stream.write( util.format( "Echo server %s\r\n", port ) );
-        stream.write( s );
+        stream.write( data );
     });
 });
 
