@@ -89,6 +89,16 @@ in the comments above the option.
 // are using? Choose 'ascii', 'utf8' or 'binary'
 //     encoding:               'ascii',
 
+// Depending on your configuration, you could have the
+// same remote defined in multiple chains, and it may be
+// the active remote in mulitple chains at the same time.
+// Piped can make sure that a bit of data is only sent to
+// a remote once, and by default that is what it will do.
+// Set to 'false' to disable, and receive a bit of data
+// multiple times if the remote is the active remote in
+// multiple chains.
+//     no_duplicates:          true,
+
 // Piped will check for the health of your remote instances
 // periodically; This value is the maximum amount of time
 // during which you can expect one of your remote chains
