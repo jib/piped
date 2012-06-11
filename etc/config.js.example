@@ -1,0 +1,169 @@
+/* *************************************
+
+This documents all the configuration options for
+Piped. It serves as the canonical documentation
+for their format and purpose.
+
+The default is the commented out version of the
+configuration option. Valid values often listed
+in the comments above the option.
+
+**************************************** */
+{
+
+/* ************************
+  Remote servers - REQUIRED
+   ************************ */
+
+// The remote server configuration is the most interesting
+// part of piped; it supports many types of remotes, as well
+// as failover and fanout.
+//
+// Supported types are:
+//  tcp     e.g. tcp://localhost:10001
+//  udp     e.g. udp://localhost:11001
+//  socket  e.g. socket:///tmp/output.socket
+//  stdout  e.g. stdout
+//
+// Below are a few configurations that can serve as an example.
+// This configuration option *** MUST BE FILLED IN *** for piped
+// to operate.
+
+/*
+    A very simple configuration, that sends all traffic to
+    localhost:10001, with no failovers configured:
+    servers: [ 'tcp://localhost:10001' ],
+
+    A fanout configuration that sends all traffic to BOTH
+    the servers listed:
+    servers: [
+        [ 'tcp://localhost:10001' ],
+        [ 'tcp://localhost:10002' ],
+    ],
+
+    A failover configuration in case the first server is not
+    available; if 10001 is down, all traffic will be sent to
+    10002. Once 10001 comes back up, traffic will go back to
+    10001:
+    servers: [ 'tcp://localhost:10001', 'tcp://localhost:10002' ],
+
+    A combined example of failover & fanout:
+    servers: [
+        [ 'tcp://localhost:10001', 'tcp://localhost:10002' ],
+        [ 'tcp://localhost:11001', 'tcp://localhost:11002' ],
+    ],
+
+    A complex example using all the available inputs and outputs,
+    which will fan out a single input to 3 different chains.
+    servers: [
+        // Send to the first host, but fail over to the unix
+        // socket on failure:
+        [ 'tcp://localhost:10001', 'socket:///tmp/failover.socket' ],
+        // Also send a copy over UDP to a remote host. There is no
+        // point in a failover host here, as UDP packets are fire and
+        // forget, so it is impossible to know if the server is sick:
+        [ 'udp://remote.example.com:10001' ],
+        // And always send a copy to stdout, which we can catch using
+        // by using a pipe ( '|' ) on the command line:
+        [ 'stdout' ],
+    ],
+*/
+
+    servers: [],
+
+
+/* **************************
+   Runtime options - OPTIONAL
+   ************************** */
+
+// Should 'debug' be enabled - useful while configuring
+// your piped instance for the first time; Do NOT run
+// this in production.
+//     debug:                  false,
+
+// Should 'trace' be enabled - useful to troubleshoot a
+// piped configuration; Do NOT run this in production.
+//     trace:                  false,
+
+// What encoding should piped assume for the sockets you
+// are using? Choose 'ascii', 'utf8' or 'binary'
+//     encoding:               'ascii',
+
+// Piped will check for the health of your remote instances
+// periodically; This value is the maximum amount of time
+// during which you can expect one of your remote chains
+// to loose data; set it low enough to be tolerable to you,
+// but high enough to not gather too much overhead. The
+// default of 50 milliseconds seems a reasonable middle
+// ground in most configurations
+//     monitor_interval:       50,             // in ms
+
+// When a remote is marked as unhealthy, it is put on a
+// reconnect list that piped will periodically scan. This
+// period defines how often piped will scan this list and
+// attempt to reconnect; set it high enough to be tolerable
+// for you and your remote systems, but not so low that you
+// might be hammering sick remotes. The default of 1000 milli
+// seconds seems a reasonable middle ground in most setups.
+//     reconnect_interval:     1000,           // in ms
+
+
+/* *************************
+   Listen options - OPTIONAL
+   ************************* */
+
+// Should this server listen for incoming data on STDIN?
+// This can be very useful as a logging destination for
+// applications such as Apache. Set to 'true' to enable.
+//     stdin:                  false,
+
+// Should this server listen on a unix socket? If so,
+// provide the full path to the socket to open. Note
+// that the directory must already exist. Example:
+// /tmp/piped.socket
+//     unix_socket:            false,
+
+// Should this server listen on TCP? If so, provide a
+// port number for this server to listen on, or set to
+// 'false' to disable.
+//     tcp_port:               29029,          // like: 1337,
+
+
+// Should this server listen on UDP? If so, provide a
+// port number for this server to listen on, or set to
+// 'false' to disable.
+//     udp_port:               29029,
+
+// Kernels have a maximum size they will accept for UDP
+// packets before silently dropping them. This size is
+// dependent on many factors and depends on your OS &
+// Kernel configuration, as well as that of the remote
+// system. Pick a size that you know works for your set
+// up. The default of 512 works under most configurations.
+// See here for details: http://xrl.us/bm9q4g
+
+// What address should the server bind to? For network
+// services, you can specify any interface you desire;
+// the default is only localhost, but you can use the
+// standard '0.0.0.0' to bind on all interfaces.
+//     bind_address:           '127.0.0.1',
+
+/* ***********************
+   Admin Server - OPTIONAL
+   *********************** */
+
+// Piped will run an admin server on a port or socket
+// you specify. The default is to use a TCP port, but
+// if you so choose, you can use a unix socket as well.
+// Same restrictions as above; the directory must already
+// exist;
+//     admin_port:             29030,
+
+// Just like the listneners, the admin server can use
+// a specific address to bind to. The default is only
+// localhost, but you can use the standard '0.0.0.0'
+// to bind on all interfaces. If you pass a socket to
+// 'admin_port' above, this option is ignored.
+//     admin_bind_address:     '127.0.0.1',
+
+};
