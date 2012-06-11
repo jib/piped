@@ -121,7 +121,13 @@ Usage: node bin/piped.js /path/to/configfile [--option=value, ...]\n\
                 );
             }
 
+            // *********************************
+            // Stdin
+            // *********************************
 
+            if( config.stdin ) {
+                new LocalListen.STDIN( 'stdin', dispatcher.dispatch );
+            }
 
         });
     });

@@ -9,7 +9,8 @@
 //         [ "tcp://localhost:10002", "udp://localhost:10005" ],
 //        [ "tcp://localhost:10001" ],
         [ "tcp://localhost:10001" ],
-        [ "udp://localhost:10001" ],
-        [ "socket:///tmp/remote.socket" ],
+//         [ "udp://localhost:10001" ],
+//         [ "socket:///tmp/piped.socket" ],
+//        [ "file:///tmp/piped.out" ],
     ],
 };
