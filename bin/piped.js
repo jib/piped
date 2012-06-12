@@ -77,6 +77,21 @@ Usage: node bin/piped.js /path/to/configfile [--option=value, ...]\n\
         // *********************************
         AdminServer.AdminServer( config.admin_port, config.admin_bind_address );
 
+
+        // *********************************
+        // Statsd backend?
+        // *********************************
+
+        if( config.statsd_port ) {
+            var statsd = RemoteSend.UDP(
+                            'statsd', config.statsd_port, config.statsd_host );
+
+            BO._set_statsd_object( statsd );
+
+            C._debug( U.format( 'Using statsd backend udp://%s:%s',
+                config.statsd_host, config.statsd_port ) );
+        }
+
         // *********************************
         // Remote connections
         // *********************************
