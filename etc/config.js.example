@@ -209,4 +209,9 @@ in the comments above the option.
 // are free to change it to anything that fits your setup better.
 // Again, remember to prefix with a .
 //     statsd_suffix:          '.' + require('os').hostname().split('.')[0],
+
+// How often should health stats be checked and sent to statsd?
+// Note, this is different from connection stats, which will be sent
+// every time an connection is established, and not periodically.
+//     statsd_interval:        1000,
 };
