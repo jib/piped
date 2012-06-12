@@ -69,7 +69,7 @@ in the comments above the option.
     ],
 */
 
-    servers: [],
+    servers: [ ],
 
 
 /* **************************
@@ -151,6 +151,7 @@ in the comments above the option.
 // system. Pick a size that you know works for your set
 // up. The default of 512 works under most configurations.
 // See here for details: http://xrl.us/bm9q4g
+//     udp_max_size:           512,
 
 // What address should the server bind to? For network
 // services, you can specify any interface you desire;
@@ -176,4 +177,36 @@ in the comments above the option.
 // 'admin_port' above, this option is ignored.
 //     admin_bind_address:     '127.0.0.1',
 
+/* ************************
+   Statsd Output - OPTIONAL
+   ************************ */
+
+// Piped can integrate with your Statsd installation. It will
+// send a stat on every received and every sent data point, as
+// identified by it's name (for remotes) or type (for listeners)
+// You can read more about statsd and how it works here:
+//   https://github.com/etsy/statsd
+
+// What port does the statsd server run on? The default port
+// is 8125. Picking a port turns statsd support on for the
+// application. If you leave the port to 'false', no statsd
+// calls will be attempted.
+//     statsd_port:            false,
+
+// What host does the statsd server run on?
+//     statsd_host:            'localhost',
+
+// To make it easier for you to identify stats that come from
+// piped, we can prefix and suffix the keys sent. You can change
+// this to whatever you'd like, but rememer to use a trailing .
+//     statsd_prefix:          'piped.',
+
+// By default, the suffix appended to every metric is the hostname.
+// The below function call takes the first level hostname of the
+// FQDN. So for example 'foo.example.com' becomes 'foo', and
+// 'bar.zot.example.com' becomes 'bar'. For most setups this will
+// work fine to identify the host the metric came from, but you
+// are free to change it to anything that fits your setup better.
+// Again, remember to prefix with a .
+//     statsd_suffix:          '.' + require('os').hostname().split('.')[0],
 };
