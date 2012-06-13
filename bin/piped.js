@@ -1,14 +1,14 @@
 "use strict";
 
-/*
-To lint the JS code in this project, run:
 
-  jslint.js lib/piped.js lib/configurator.js --nomen --plusplus --white --node --continue --eqeq --vars
+// To lint the JS code in this project, run:
+//
+//   jslint.js bin/piped.js lib/*.js --nomen --plusplus --white --node --continue --eqeq --vars --evil --forin --regexp
+//
+// Also see:
+//
+//   http://www.jslint.com/
 
-Also see:
-
-  http://www.jslint.com/
-*/
 
 
 // *********************************
@@ -72,10 +72,14 @@ Usage: node bin/piped.js /path/to/configfile [--option=value, ...]\n\
         // default config or options passed in
         var config = config_object.config;
 
+        // We'll add all the listeners we have here.
+        var state = BO.state_object();
+
+
         // *********************************
         // Admin Server
         // *********************************
-        AdminServer.AdminServer( config.admin_port, config.admin_bind_address );
+        state.listeners.admin = AdminServer.AdminServer( config.admin_port, config.admin_bind_address );
 
 
         // *********************************
@@ -111,7 +115,7 @@ Usage: node bin/piped.js /path/to/configfile [--option=value, ...]\n\
             // *********************************
 
             if( config.tcp_port ) {
-                new LocalListen.Stream(
+                state.listeners.tcp = new LocalListen.Stream(
                     'tcp', config.tcp_port, config.bind_address, dispatcher.dispatch
                 );
             }
@@ -121,7 +125,7 @@ Usage: node bin/piped.js /path/to/configfile [--option=value, ...]\n\
             // *********************************
 
             if( config.unix_socket ) {
-                new LocalListen.Stream(
+                state.listeners.socket = new LocalListen.Stream(
                     'socket', config.unix_socket, false, dispatcher.dispatch
                 );
             }
@@ -131,7 +135,7 @@ Usage: node bin/piped.js /path/to/configfile [--option=value, ...]\n\
             // *********************************
 
             if( config.udp_port ) {
-                new LocalListen.UDP(
+                state.listeners.udp = new LocalListen.UDP(
                     'udp', config.udp_port, config.bind_address, dispatcher.dispatch
                 );
             }
@@ -141,7 +145,8 @@ Usage: node bin/piped.js /path/to/configfile [--option=value, ...]\n\
             // *********************************
 
             if( config.stdin ) {
-                new LocalListen.STDIN( 'stdin', dispatcher.dispatch );
+                state.listeners.stdin = new LocalListen.STDIN(
+                    'stdin', dispatcher.dispatch );
             }
 
         });
