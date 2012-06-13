@@ -42,6 +42,8 @@ TestLib.Test( function( test, testlib, config ) {
                         '--explicit_true=true',
                         '--false=false',
                         '-single-dash=single-dash',
+                        '--json_hash={"foo":42}',
+                        '--json_array=["42"]',
                     ]);
 
         // the above options should produce this hash
@@ -51,7 +53,9 @@ TestLib.Test( function( test, testlib, config ) {
             'string':           'string',
             'true':             true,
             'explicit_true':    true,
-            'false':            false
+            'false':            false,
+            'json_hash':        {foo: 42},
+            'json_array':       ['42'],
         };
 
         t.deepEqual( hash, expect,  "Parsed hash options correctly" );
