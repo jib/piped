@@ -15,7 +15,7 @@ do
 
     ### If the command exited with an error code, add it here
     ### Syntax: http://tldp.org/LDP/abs/html/dblparens.html#CVARS
-    ((OK += $?));
+    ((OK+=$?));
 done
 
 ### Basic diagnostic
