@@ -21,9 +21,11 @@ var U               = require('util');
 exports.Test = function( callback ) {
 
     // Enable verbose testing? set the env var to 1
-    var opts = parseInt(process.env['TEST_VERBOSE']) ? ["--debug", "--trace"] : [];
+    var opts = parseInt(process.env['TEST_VERBOSE'])
+                ? ["--debug", "--trace", '--servers=["stdout"]']
+                : ['--servers=["stdout"]'];
 
-    new Configurator.Configurator( null, opts, function( cfg ) {
+    new Configurator.Configurator( opts, function( cfg ) {
         var obj     = Base.BaseObject();
 
         obj._set_config_object( cfg );

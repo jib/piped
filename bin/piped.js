@@ -30,32 +30,46 @@ var Dispatcher      = require('../lib/dispatcher');
 // *********************************
 
 function _usage( msg ) {
-    var usage = "\n\
-Usage: node bin/piped.js /path/to/configfile [--option=value, ...]\n\
-    ";
+    var usage = "\
+Usage: node bin/piped.js [--config=/path/to/configfile] [--option=value, ...]\n\
+\n\
+Examples:\n\
+    node bin/piped.js --config=/etc/piped/config.js --debug --trace\n\
+\n\
+    node bin/piped.js --servers='[\"tcp://foo:1234\"]' --admin_port=/tmp/admin.sock\n";
 
-    return "ERROR: " + msg + usage;
+    return msg ? "ERROR: " + msg + "\n\n" + usage : usage;
 }
-
-// *********************************
-// Utility functions
-// *********************************
-
-
-
 
 // *********************************
 // Main program
 // *********************************
 
-(function( config_file, opts ) {
-    if( config_file === undefined ) {
-        // I don't know what to do with out a config file.
-        throw _usage( "Missing config file" );
-    }
-
+(function( opts ) {
     // Callback will be called when the config is ready to go.
-    Configurator.Configurator( config_file, opts, function( config_object ) {
+    Configurator.Configurator( opts, function( config_object ) {
+
+        // We only care about the config at this point, not the
+        // default config or options passed in
+        var config = config_object.config;
+
+        /* Basic error checking */
+
+        // Did you want usage info?
+        if( config_object.opts.help || config_object.opts.h ) {
+            process.stderr.write( _usage() );
+            process.exit(0);
+        }
+
+        // No servers means fatality; where would we connect to?
+        if( !config.servers[0].length) {
+            throw( _usage("No server entries detected: " + U.inspect( config.servers )) );
+        }
+
+        // No ports means fatality: where would you connect to?
+        if(!config.udp_port && !config.tcp_port && !config.unix_socket && !config.stdin) {
+            throw( _usage("No listening sockets detected: " + U.inspect( config )) );
+        }
 
         var BO = new Base.BaseObject();
 
@@ -68,9 +82,6 @@ Usage: node bin/piped.js /path/to/configfile [--option=value, ...]\n\
         // running with
         C._trace( config_object );
 
-        // We only care about the config at this point, not the
-        // default config or options passed in
-        var config = config_object.config;
 
         // We'll add all the listeners we have here.
         var state = BO.state_object();
@@ -151,5 +162,4 @@ Usage: node bin/piped.js /path/to/configfile [--option=value, ...]\n\
 
         });
     });
-// first arg to the app is the config file, the rest are arguments
-}( process.argv[2], process.argv.slice(3) ) );
+}( process.argv.slice(2) ) );
