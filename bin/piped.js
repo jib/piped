@@ -90,8 +90,11 @@ Examples:\n\
         // *********************************
         // Admin Server
         // *********************************
-        state.listeners.admin = AdminServer.AdminServer( config.admin_port, config.admin_bind_address );
 
+        // You may have /explicitly/ disabled it. Fine, then we won't start it
+        if( config.admin_port ) {
+            state.listeners.admin = AdminServer.AdminServer( config.admin_port, config.admin_bind_address );
+        }
 
         // *********************************
         // Statsd backend?
