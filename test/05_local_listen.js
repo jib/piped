@@ -10,7 +10,7 @@ var TestLib         = require('./lib/test');
 var Dgram           = require("dgram");
 var U               = require('util');
 var Net             = require('net');
-
+var FS              = require('fs');
 
 
 TestLib.Test( function( test, testlib, config ) {
@@ -22,8 +22,8 @@ TestLib.Test( function( test, testlib, config ) {
             function( ll, conn ) {
                 conn.on( 'data', function (data) {
 
-                    t.ok( true, U.format( "Received data on %s:%s - %s",
-                            type, port, data ) );
+                    t.equal( type, data,
+                        U.format( "Received data on %s:%s - %s", type, port, data ) );
                     t.done();
                 });
             },
@@ -63,7 +63,8 @@ TestLib.Test( function( test, testlib, config ) {
         var ll = new LL.UDP( type, port, host,
             // on data
             function( ll, data ) {
-                t.ok( true, U.format( "Received data on %s:%s - %s", type, port, data ) );
+                t.equal( type, data,
+                    U.format( "Received data on %s:%s - %s", type, port, data ) );
                 t.done();
             },
             // on listen
@@ -86,17 +87,43 @@ TestLib.Test( function( test, testlib, config ) {
         );
     };
 
-//     test.testFile = function( t ) {
-//         var type = 'file';
-//         // XXX relative to this file?
-//         var file = '/tmp/x';
-//
-//         var ll = new LL.File( type, file );
-//
-//
-//         t.ok( true, ll );
-//         //t.done();
-//     };
+    test.testFile = function( t ) {
+        var type = 'file';
+
+        // XXX relative to this file?
+        var file    = '/tmp/piped.test.' + C._now();
+
+        // Make sure this is a /dynamic/ string; tailfd doesn't notice
+        // the change in file otherwise.
+        var content = C._now() + "\n";
+
+        // First, make sure the file exists and can be opened for appending.
+        var fd = FS.openSync( file, 'a' );
+
+        var ll = new LL.File( type, file,
+            // on data
+            function( ll, data ) {
+                t.equal( data, content,
+                    U.format( "Received data from %s://%s:", type, file, content ) );
+
+                // And clean up after ourselves
+                FS.unlinkSync( file );
+
+                t.done();
+            },
+            // on listen
+            function( ll ) {
+
+                // Give the tail code a moment to open the file and set up
+                // all the handlers.
+                setTimeout( function() {
+
+                    // And now write some content, which should be picked up
+                    FS.writeSync( fd, content, 0, content.length );
+                }, 500 );
+            }
+        );
+    };
 
     // run the tests
     testlib.run();
