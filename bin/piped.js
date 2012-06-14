@@ -163,6 +163,20 @@ Examples:\n\
                     'stdin', dispatcher.dispatch );
             }
 
+            // *********************************
+            // Files to tail
+            // *********************************
+
+            if( config.files && config.files.length ) {
+                var i;
+                for( i=0; i < config.files.length; i++ ) {
+                    state.listeners.files[i] = new LocalListen.File(
+                        'file://' + config.files[i],
+                        config.files[i],
+                        dispatcher.dispatch
+                    );
+                }
+            }
         });
     });
 }( process.argv.slice(2) ) );

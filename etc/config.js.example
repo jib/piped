@@ -159,6 +159,13 @@ in the comments above the option.
 // standard '0.0.0.0' to bind on all interfaces.
 //     bind_address:           '127.0.0.1',
 
+// What files should be tailed as an input to piped?
+// Even if the files are truncated or rotated, piped
+// will do the right thing. On rotation, it will tail
+// both the old and the new file, and after a period
+// of inactivity, the old file will no longer be tailed.
+//     files: [ ],
+
 /* ***********************
    Admin Server - OPTIONAL
    *********************** */
