@@ -6,6 +6,7 @@
 , "author":         "Jos Boumans <jos@dwim.org>"
 , "dependencies": {
     "nodeunit": ">= 0.7.4"
+  , "tailfd":   ">= 0.0.1"
   }
 , "repository":     {
      "type":    "git"
