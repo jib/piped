@@ -1,16 +1,13 @@
 PipeD
 =====
 
-A network daemon that runs on the [Node.js][node] platform and
-listens for incoming data via one of `UDP, TCP, Unix Socket, File
-or STDIN` and sends it out to one (or more) of `UDP, TCP, Unix Socket
-or STDOUT`. PipeD can both fanout and failover as needed.
+A highly performant network daemon that runs on the [Node.js][node] platform
+that translates, fans out and/or consolidates any incoming data stream to any
+outgoing data stream with failover support.
 
-On tests using [c1.medium](http://aws.amazon.com/ec2/#instance) PipeD can
-handle 85k messages/secondover `TCP` or [UDP][udp] with a single output.
-
-The bottlenecks are the `cat` and `nc` process that are taking up the majority
-of the CPU for the benchmark.
+The incoming streams can consist of one or more of `UDP, TCP, Unix Socket,
+File or STDIN` and the outoing streams can consist of one or more of `UDP,
+TCP, Unix Socket or STDOUT`.
 
 Here's a quick graphical overview:
 
@@ -132,6 +129,43 @@ Tests
 the test suite, run the following command from the repository root:
 
   $ ./run_tests.sh
+
+Inspiration
+-----------
+
+At [Krux][krux] we deal with a large amount of inbound analytics data (well
+north of 15k/second) on our beacon nodes. We store this data locally on disk
+for later batch processing, but we also want to move this data off the host
+asap for real time processing of certain bits of data.
+
+Originally, we had used [rsyslog](http://www.rsyslog.com/) as the mechanism
+to move files off the host, but found it had a number of short comings that
+greatly reduced it's usefulness to us:
+
+* *High CPU overhead* At several thousand requests per second, even a basic
+`forward everything` rule in rsyslog was eating up significant amounts of
+CPU, leaving less for the actual processes we wanted to run
+
+* *Flaky failover* When the primary delivery node for rsyslog disappeared,
+it would often mark the node as sick, but not failover to the fallback host,
+causing it to overflow it's internal buffer, then disk, and eventually block
+outgoing traffic.
+
+* *Input conversion* As we started to use more piping techniques, not all
+inputs were in a format that rsyslog could easily consume, or would require
+us to run multiple rsyslog instances to watch all the inputs.
+
+`PipeD` aims to address all the issues above while being small, flexible,
+fast and lightweight.
+
+As a comparison, on a test using a [c1.medium](http://aws.amazon.com/ec2/#instance),
+`PipeD` was able to handle 85k messages/second over `TCP` or [UDP][udp] with a
+single remote endpoint, where rsyslog would run out of CPU at 10k/second.
+
+Interesting detail to the `PipeD` benchmark is that the bottlenecks were the
+`cat` and `nc` process that are taking up the majority of the CPU for the
+benchmark.
+
 
 Contribute
 ---------------------
