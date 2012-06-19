@@ -33,7 +33,7 @@ Concepts
   A list of failover remotes is considerd a chain. The idea is that at
   least one node in the chain should be available for delivery, or the
   chain is marked as sick. This is usually a state you don't want to be
-  in, as you'd be losing (one of) your remoe streams.
+  in, as you'd be losing (one of) your remote streams.
 
 Examples
 --------
@@ -70,8 +70,7 @@ is unavailable, send the line to `syslog2` instead. If `syslog1` becomes availab
 again, switch traffic back there.
 
 In addition, the picture shows that rather than tailing a log file like in the
-example above, we can also directly listen on `stdin`, and hook into [Apache
-Customlog][http://httpd.apache.org/docs/2.0/mod/mod_log_config.html] functionality.
+example above, we can also directly listen on `stdin`, and hook into [Apache Customlog][http://httpd.apache.org/docs/2.0/mod/mod_log_config.html] functionality.
 
 Here's what that configuration would like for `PipeD`:
 
