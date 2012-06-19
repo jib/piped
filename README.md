@@ -6,10 +6,11 @@ listens for incoming data via one of `UDP, TCP, Unix Socket, File
 or STDIN` and sends it out to one (or more) of `UDP, TCP, Unix Socket
 or STDOUT`. PipeD can both fanout and failover as needed.
 
-On tests using [c1.medium][c1_medium] PipeD can handle 85k messages/second
-over `TCP` or [UDP][udp] with a single output. The bottlenecks are
-the `cat` and `nc` process that are taking up the majority of the CPU
-for the benchmark.
+On tests using [c1.medium](http://aws.amazon.com/ec2/#instance) PipeD can
+handle 85k messages/secondover `TCP` or [UDP][udp] with a single output.
+
+The bottlenecks are the `cat` and `nc` process that are taking up the majority
+of the CPU for the benchmark.
 
 Here's a quick graphical overview:
 
@@ -70,8 +71,7 @@ is unavailable, send the line to `syslog2` instead. If `syslog1` becomes availab
 again, switch traffic back there.
 
 In addition, the picture shows that rather than tailing a log file like in the
-example above, we can also directly listen on `stdin`, and hook into `Apache`
-[Customlog][http://httpd.apache.org/docs/2.0/mod/mod_log_config.html] functionality.
+example above, we can also directly listen on `stdin`, and hook into [Apache Customlog](http://httpd.apache.org/docs/2.0/mod/mod_log_config.html) functionality.
 
 Here's what that configuration would like for `PipeD`:
 
@@ -136,4 +136,3 @@ We'll do our best to get your changes in!
 [krux]: http://www.krux.com
 [node]: http://nodejs.org
 [udp]: http://en.wikipedia.org/wiki/User_Datagram_Protocol
-[c1_medium]: http://aws.amazon.com/ec2/#instance
