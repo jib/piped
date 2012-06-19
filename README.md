@@ -11,6 +11,8 @@ over `TCP` or [UDP][udp] with a single output. The bottlenecks are
 the `cat` and `nc` process that are taking up the majority of the CPU
 for the benchmark.
 
+Here's a quick graphical overview:
+
 ![overview](https://github.com/jib/piped/raw/master/docs/media/overview.jpg)
 
 Concepts
@@ -27,12 +29,62 @@ Concepts
   communication in your favourite Unix environment. Any input point is
   called a `listener`
 
+* *chains*
+  A list of failover remotes is considerd a chain. The idea is that at
+  least one node in the chain should be available for delivery, or the
+  chain is marked as sick. This is usually a state you don't want to be
+  in, as you'd be losing (one of) your remoe streams.
+
 Examples
 --------
 
 The easiest way to show how `PipeD` works is through some examples:
 
 
+![fanout](https://github.com/jib/piped/raw/master/docs/media/fanout.jpg)
+
+The picture above shows a very simple fanout situation; the `access.log`
+is tailed, and for every line, a copy of that line is sent to both the
+`stats server`, as well as the `db server`
+
+Here's what that configuration would look like for `PipeD`:
+
+```javascript
+{   // Tail these files, and process each line
+    files: [
+        '/var/log/access.log',
+    ],
+    // Send a copy to both servers
+    servers: [
+        [ 'tcp://stats-server.example.com:12345' ],
+        [ 'tcp://db-inserter.example.com:23456' ],
+    ],
+}
+```
+
+
+![failover](https://github.com/jib/piped/raw/master/docs/media/failover.jpg)
+
+The picture above shows the most basic failover scenario; if the host `syslog1`
+is unavailable, send the line to `syslog2` instead. If `syslog1` becomes available
+again, switch traffic back there.
+
+In addition, the picture shows that rather than tailing a log file like in the
+example above, we can also directly listen on `stdin`, and hook into [Apache
+Customlog][http://httpd.apache.org/docs/2.0/mod/mod_log_config.html] functionality.
+
+Here's what that configuration would like for `PipeD`:
+
+```javascript
+{   // Listen on stdin
+    stdin: true,
+    // Send a copy to at least one of these servers
+    servers: [
+        'tcp://syslog1.example.com:12345',
+        'tcp://syslog2.example.com:12345',
+    ],
+}
+```
 
 Debugging
 ---------
