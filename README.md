@@ -86,6 +86,14 @@ Here's what that configuration would like for `PipeD`:
 }
 ```
 
+For more examples for configuring listeners & remotes, please take a look at the
+[etc/config.js.example](https://github.com/jib/piped/blob/master/etc/config.js.example)
+file shipped in this repository.
+
+This file also holds all the configuration options for `PipeD`, their documentation
+and defaults.
+
+
 Debugging
 ---------
 
