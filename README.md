@@ -110,13 +110,14 @@ There are additional config variables available for debugging:
 * `debug` - log common operations to stderr
 * `trace` - log extensive information about all operations to stderr
 
-For more information, check the `etc/config.js.example` file.
+For more information, check the [etc/config.js.example](https://github.com/jib/piped/blob/master/etc/config.js.example) file.
 
 Installation and Configuration
 ------------------------------
 
  * Install node.js
  * Clone the project
+ * Run `npm install` from the repository root
  * Create a config file `from etc/config.js.example` and put it somewhere
  * Start the Daemon:
 
@@ -137,7 +138,7 @@ Contribute
 
 You're interested in contributing to PipeD? *AWESOME*. Here are the basic steps:
 
-fork StatsD from here: http://github.com/jib/piped
+fork PipeD from here: http://github.com/jib/piped
 
 1. Clone your fork
 2. Hack away
