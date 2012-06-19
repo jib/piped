@@ -130,6 +130,31 @@ the test suite, run the following command from the repository root:
 
   $ ./run_tests.sh
 
+
+Admin Interface
+---------------
+
+`PipeD` exposes an Admin interface (by default on port 29030) that you
+can telnet to to inspect the health of the system.
+
+Here is a list of supported commands:
+
+* *help* Returns a list of supported commands
+
+* *ping* Returns 'pong' - useful for basic monitoring/health checks
+
+* *config* Returns a `JSON` representation of the config this instance is using
+
+* *stats* Returns a `JSON` representation of the send/receive statistics and the
+state of the listeners, chains and remotes.
+
+Statsd Integration
+------------------
+
+`PipeD` integrates with [StatsD](https://github.com/etsy/statsd) for usage
+statistics. Simply configure the `StatsD` endpoint in your config and watch
+the stats on listeners, chains and remotes stream in.
+
 Inspiration
 -----------
 
