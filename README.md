@@ -6,10 +6,12 @@ listens for incoming data via one of `UDP, TCP, Unix Socket, File
 or STDIN` and sends it out to one (or more) of `UDP, TCP, Unix Socket
 or STDOUT`. PipeD can both fanout and failover as needed.
 
-On tests using ([c1.medium][c1_medium]) PipeD can handle 85k messages/second
-over `TCP` or ([UDP][udp]) with a single output. The bottlenecks are
+On tests using [c1.medium][c1_medium] PipeD can handle 85k messages/second
+over `TCP` or [UDP][udp] with a single output. The bottlenecks are
 the `cat` and `nc` process that are taking up the majority of the CPU
 for the benchmark.
+
+![overview](https://github.com/jib/piped/raw/master/docs/media/overview.jpg)
 
 Concepts
 --------
@@ -27,6 +29,10 @@ Concepts
 
 Examples
 --------
+
+The easiest way to show how `PipeD` works is through some examples:
+
+
 
 Debugging
 ---------
