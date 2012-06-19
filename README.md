@@ -36,6 +36,15 @@ Concepts
   chain is marked as sick. This is usually a state you don't want to be
   in, as you'd be losing (one of) your remote streams.
 
+Documentation
+-------------
+
+All configuration options to `PipeD` are documented in [etc/config.js.example](https://github.com/jib/piped/blob/master/etc/config.js.example)
+
+This file holds all options, their documentation, applications defaults
+and examples on how to use them. See the Examples section below for some
+graphical examples as well.
+
 Examples
 --------
 
@@ -92,7 +101,6 @@ file shipped in this repository.
 
 This file also holds all the configuration options for `PipeD`, their documentation
 and defaults.
-
 
 Debugging
 ---------
