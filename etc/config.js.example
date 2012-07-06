@@ -108,6 +108,14 @@ in the comments above the option.
 // ground in most configurations
 //     monitor_interval:       50,             // in ms
 
+// Piped will install periodic health monitors for remote
+// instances. This value controls how long after after the
+// connect requests are issued the monitor should be installed.
+// This avoids having superfluous diagnostic messages in the
+// start up log declaring a remote sick, before the connection
+// is established.
+//     monitor_delay:          300,            // in ms
+
 // When a remote is marked as unhealthy, it is put on a
 // reconnect list that piped will periodically scan. This
 // period defines how often piped will scan this list and
