@@ -6,7 +6,7 @@
     unix_socket: '/tmp/piped.socket',
     servers: [
         [ "tcp://localhost:10001" ],
-        [ "udp://localhost:10001" ],
-        [ "socket:///tmp/remote.socket" ],
+        //[ "udp://localhost:10001" ],
+        //[ "socket:///tmp/remote.socket" ],
     ],
 };
