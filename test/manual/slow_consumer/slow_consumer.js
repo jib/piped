@@ -1,8 +1,8 @@
 "use strict";
 
 var U       = require('util');
-var LL      = require('../../lib/local_listen');
-var C       = require('../../lib/common').common();
+var LL      = require('../../../lib/local_listen');
+var C       = require('../../../lib/common').common();
 var sleep   = require('sleep');
 
 // On connection, dispatch to our callback
