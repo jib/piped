@@ -144,7 +144,7 @@ in the comments above the option.
 // Should this server listen on TCP? If so, provide a
 // port number for this server to listen on, or set to
 // 'false' to disable.
-//     tcp_port:               29029,          // like: 1337,
+//     tcp_port:               29029,
 
 
 // Should this server listen on UDP? If so, provide a

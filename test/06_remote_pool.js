@@ -53,7 +53,7 @@ TestLib.Test( function( test, testlib, config ) {
                     var rs = state.all_servers[name];
 
                     // Node up?
-                    t.ok( rs.is_available, "Remote is available: " + name );
+                    t.ok( rs.is_available(), "Remote is available: " + name );
                 }
 
                 //C._trace( state );
@@ -83,7 +83,7 @@ TestLib.Test( function( test, testlib, config ) {
                     // Now, mark the current servers sick
                     var i;
                     for( i = 0; i < cs.length; i++ ) {
-                        state.all_servers[ cs[i] ].mark_unavailable();
+                        state.all_servers[ cs[i] ].mark_as_down();
                     }
 
                     // Now, the current server list should be refreshed,
@@ -96,7 +96,7 @@ TestLib.Test( function( test, testlib, config ) {
                         // Now, mark the old current servers healthy again
                         var i;
                         for( i = 0; i < cs.length; i++ ) {
-                            state.all_servers[ cs[i] ].mark_available();
+                            state.all_servers[ cs[i] ].mark_as_up();
                         }
 
                         setTimeout( function() {
