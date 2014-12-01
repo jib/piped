@@ -1,6 +1,6 @@
 {
   "name":           "piped",
-  "version":        "0.0.2",
+  "version":        "0.0.3",
   "description":    "pipe data from/to one or more of udp, tcp, unix socket or file",
   "tags":           ["tcp", "udp", "socket", "file", "pipe", "multiplex"],
   "author":         "Jos Boumans <jos@dwim.org>",
