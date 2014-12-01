@@ -47,7 +47,7 @@ TestLib.Test( function( test, testlib, config ) {
 
     test.testSocket = function( t ) {
         // XXX relative to this file?
-        t.done(); //_stream_test( t, 'unix', '/tmp/socket.piped' );
+        _stream_test( t, 'unix', '/tmp/socket.piped' );
     };
 
     test.testTCP = function( t ) {
