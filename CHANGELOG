@@ -1,0 +1,5 @@
+PipeD 0.03 - Mon Dec  1 13:11:34 PST 2014
+=========================================
+* Node 10.x compatibility
+* Fix stats from remote endpoints
+* Switch health stats to gauges from counters
