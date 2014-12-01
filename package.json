@@ -1,18 +1,21 @@
 {
-  "name":           "piped"
-, "version":        "0.0.1"
-, "description":    "pipe data from/to one or more of udp, tcp, unix socket or file"
-, "tags":           ["tcp", "udp", "socket", "file", "pipe", "multiplex"]
-, "author":         "Jos Boumans <jos@dwim.org>"
-, "dependencies": {
-    "nodeunit": ">= 0.7.4"
-  , "tailfd":   ">= 0.0.1"
+  "name":           "piped",
+  "version":        "0.0.3",
+  "description":    "pipe data from/to one or more of udp, tcp, unix socket or file",
+  "tags":           ["tcp", "udp", "socket", "file", "pipe", "multiplex"],
+  "author":         "Jos Boumans <jos@dwim.org>",
+  "dependencies": {
+    "nodeunit": ">= 0.9.0",
+    "tailfd":   ">= 0.1.6"
+  },
+  "repository":     {
+     "type":    "git",
+     "url":     "https://github.com/jib/piped.git"
+  },
+  "bugs":           { "url": "https://github.com/jib/pipped/issues" },
+  "licences":       [ { "type": "MIT" } ],
+  "main":           "./bin/piped.js",
+  "scripts":        {
+    "test":         "./run_tests.sh"
   }
-, "repository":     {
-     "type":    "git"
-  ,  "url":     "https://github.com/jib/piped.git"
-  }
-, "bugs":           { "url": "https://github.com/jib/pipped/issues" }
-, "licences":       [ { "type": "MIT" } ]
-, "main":           "./lib/piped.js"
 }
