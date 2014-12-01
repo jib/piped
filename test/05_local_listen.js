@@ -119,7 +119,7 @@ TestLib.Test( function( test, testlib, config ) {
                 setTimeout( function() {
 
                     // And now write some content, which should be picked up
-                    FS.writeSync( fd, content, 0, content.length );
+                    FS.writeSync( fd, content );
                 }, 500 );
             }
         );
