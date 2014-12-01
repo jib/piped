@@ -14,7 +14,7 @@
   },
   "bugs":           { "url": "https://github.com/jib/pipped/issues" },
   "licences":       [ { "type": "MIT" } ],
-  "main":           "./lib/piped.js",
+  "main":           "./bin/piped.js",
   "scripts":        {
     "test":         "./run_tests.sh"
   }
