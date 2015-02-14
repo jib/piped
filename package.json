@@ -5,10 +5,10 @@
   "tags":           ["tcp", "udp", "socket", "file", "pipe", "multiplex"],
   "author":         "Jos Boumans <jos@dwim.org>",
   "dependencies": {
-    "tailfd":   ">= 0.1.6"
+    "tailfd":   "0.1.6"
   },
   "devDependencies": {
-    "nodeunit": ">= 0.9.0"
+    "nodeunit": "0.9.0"
   },
   "repository":     {
      "type":    "git",
