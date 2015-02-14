@@ -1,12 +1,14 @@
 {
   "name":           "piped",
-  "version":        "0.0.3",
+  "version":        "0.0.4",
   "description":    "pipe data from/to one or more of udp, tcp, unix socket or file",
   "tags":           ["tcp", "udp", "socket", "file", "pipe", "multiplex"],
   "author":         "Jos Boumans <jos@dwim.org>",
   "dependencies": {
-    "nodeunit": ">= 0.9.0",
     "tailfd":   ">= 0.1.6"
+  },
+  "devDependencies": {
+    "nodeunit": ">= 0.9.0"
   },
   "repository":     {
      "type":    "git",
