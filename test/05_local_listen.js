@@ -3,13 +3,10 @@
 
 var LL              = require('../lib/local_listen');
 var RS              = require('../lib/remote_send');
-var Base            = require('../lib//base');
 var C               = require('../lib/common').common();
 var TestLib         = require('./lib/test');
 
-var Dgram           = require("dgram");
 var U               = require('util');
-var Net             = require('net');
 var FS              = require('fs');
 
 
@@ -17,7 +14,7 @@ TestLib.Test( function( test, testlib, config ) {
 
     var _stream_test = function( t, type, port, host ) {
         // The listener
-        var ll = new LL.Stream( type, port, host,
+        new LL.Stream( type, port, host,
             // on connect
             function( ll, conn ) {
                 conn.on( 'data', function (data) {
@@ -60,7 +57,7 @@ TestLib.Test( function( test, testlib, config ) {
         var host = 'localhost';
 
         // The listener
-        var ll = new LL.UDP( type, port, host,
+        new LL.UDP( type, port, host,
             // on data
             function( ll, data ) {
                 t.equal( type, data,

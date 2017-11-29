@@ -1,12 +1,7 @@
 "use strict";
 
-var LocalListen     = require('../lib/local_listen');
-var Base            = require('../lib/base');
 var Dispatcher      = require('../lib/dispatcher');
-var C               = require('../lib/common').common();
 var TestLib         = require('./lib/test');
-var U               = require('util');
-var Events          = require('events');
 
 TestLib.Test( function( test, testlib, config ) {
 
@@ -61,7 +56,7 @@ TestLib.Test( function( test, testlib, config ) {
     (function(){
         var state = d.state_object();
 
-        state.current_servers = [ ]
+        state.current_servers = [ ];
 
         var k;
         for( k in remotes ) {
@@ -119,7 +114,7 @@ TestLib.Test( function( test, testlib, config ) {
                 on:     function( type, callback ) {
                     this._called[ 'udp' ] = 1;
                 }.bind( listener )
-            }
+            };
 
             d.dispatch( listener, connection );
 
@@ -143,5 +138,5 @@ TestLib.Test( function( test, testlib, config ) {
     }
     testlib.run();
 
-})
+});
 

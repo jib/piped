@@ -80,7 +80,7 @@ exports.Test = function( callback ) {
 
         obj.diag = function( str ) {
             process.stdout.write( "# " + str + "\n" );
-        }
+        };
 
         var test = { };
 

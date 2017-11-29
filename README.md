@@ -6,7 +6,7 @@ that translates, fans out and/or consolidates any incoming data stream to any
 outgoing data stream with failover support.
 
 The incoming streams can consist of one or more of `UDP, TCP, Unix Socket,
-File or STDIN` and the outoing streams can consist of one or more of `UDP,
+File or STDIN` and the outgoing streams can consist of one or more of `UDP,
 TCP, Unix Socket or STDOUT`.
 
 Here's a quick graphical overview:
@@ -28,7 +28,7 @@ Concepts
   called a `listener`
 
 * *chains*
-  A list of failover remotes is considerd a chain. The idea is that at
+  A list of failover remotes is considered a chain. The idea is that at
   least one node in the chain should be available for delivery, or the
   chain is marked as sick. This is usually a state you don't want to be
   in, as you'd be losing (one of) your remote streams.

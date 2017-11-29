@@ -1,13 +1,9 @@
 "use strict";
 
 var LL              = require('../lib/local_listen');
-var Configurator    = require('../lib/configurator');
-var Base            = require('../lib//base');
-var C               = require('../lib/common').common();
 var RP              = require('../lib/remote_pool');
 var TestLib         = require('./lib/test');
 var U               = require('util');
-var Net             = require('net');
 
 
 TestLib.Test( function( test, testlib, config ) {
@@ -68,7 +64,7 @@ TestLib.Test( function( test, testlib, config ) {
                     }
 
                     return cs;
-                }
+                };
 
                 // The current server list should be the first 2 entries
                 // of each of the remotes hash
