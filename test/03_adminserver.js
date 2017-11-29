@@ -2,9 +2,7 @@
 
 
 var AdminServer     = require('../lib/admin_server');
-var C               = require('../lib/common').common();
 var TestLib         = require('./lib/test');
-var U               = require('util');
 
 
 TestLib.Test( function( test, testlib, config ) {
@@ -33,7 +31,7 @@ TestLib.Test( function( test, testlib, config ) {
         }
 
         t.done();
-    }
+    };
 
     testlib.run();
 });

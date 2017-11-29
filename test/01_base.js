@@ -1,6 +1,5 @@
 var C               = require('../lib/common').common();
 var TestLib         = require('./lib/test');
-var U               = require('util');
 var Base            = require('../lib/base');
 
 TestLib.Test( function( test, testlib, config ) {
@@ -40,7 +39,7 @@ TestLib.Test( function( test, testlib, config ) {
                                 "   .start_time" );
 
         t.done();
-    }
+    };
 
     test.testCommon = function( t ) {
 
